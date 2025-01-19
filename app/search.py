@@ -24,7 +24,6 @@ def fetch_papers(query, max_results=60):
 # Initialize embeddings and FAISS vector store
 embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
 index = faiss.IndexFlatL2(len(embeddings.embed_query("hello world")))
-
 vector_store = FAISS(
     embedding_function=embeddings,
     index=index,
@@ -32,19 +31,8 @@ vector_store = FAISS(
     index_to_docstore_id={},
 )
 
+
 def index_papers(papers, vector_store=vector_store):
-    """
-    Indexes papers into the given vector store, checking for duplicates.
-
-    Args:
-        papers: A list of papers, where each paper is a dictionary containing 
-               "title", "summary", and "url".
-        vector_store: The existing FAISS vector store.
-
-    Returns:
-        The updated FAISS vector store.
-    """
-
     new_papers = []
     for paper in papers:
         # Check if a document with the same URL already exists
@@ -68,6 +56,7 @@ def index_papers(papers, vector_store=vector_store):
         )
 
     return vector_store
+
 
 def search_papers(query, vector_store, top_k=5):
     results = vector_store.similarity_search(query, k=top_k)
