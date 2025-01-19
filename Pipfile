@@ -11,6 +11,9 @@ llama-index = "*"
 tiktoken = "*"
 faiss-cpu = "*"
 arxiv = "*"
+langchain-community = "*"
+langchain-huggingface = "*"
+sentence-transformers = "*"
 
 [dev-packages]
 
